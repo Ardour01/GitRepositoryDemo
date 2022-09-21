@@ -1,0 +1,160 @@
+Git is a distributed version control system.
+
+Advantages:
+- Easily recover files
+- which commit (who) introduced an issue
+- roll back to previously working state.
+
+History of version control system:
+- Local VCS created - database updated to keep track of files. (roll back was also possible)
+- Centralized VCS - All files kept on a server. Many people could use it. But server was prone to damage.
+- Distributed VCS - Has a centralized server, when team members pull/push they get the complete history of the files.
+					This system did not take full disk space. Only source code files were pushed/pulled.
+					
+Git is a software, github is a hosting software which contains all the repositories.
+
+Features of Git:
+- captures snapshot and not differences.
+- A .git folder is being created, which has all the history.
+- Almost every operation is local (everything on your computer). Remote meanns related to server (internet required)
+- Git has integrity. Every file has a checksum (the complicated number in git commit records)
+						Every file has a unique checksum.
+- Git generally only adds data.
+######################################################################################################################
+Install git.
+Open git bash. Git bash is a terminal. On this terminal you can use linux commands.
+Set up your credentials.
+
+For setting up the credentials the first time:
+git config --global user.name "Ardour01"
+git config --global user.mail "ardour.01@gmail.com"
+
+To check already present credentials:
+git config --list
+This gives output as:
+aarzoo.jain_infobean@IB-SEZ-LAP-1065 MINGW64 /d/Learning/Git
+$ git config --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=openssl
+http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager-core
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+credential.https://gitlab.com.provider=generic
+user.name=Ardour01
+user.email=ardour.01@gmail.com
+core.sshcommand='C:\Windows\System32\OpenSSH\ssh.exe'
+
+
+Commit means taking a snapshot.
+######################################################################################################################
+Three Stage Architecture of Git:
+Snapshot means freeze the code as it is for now. This process of taking snapshot is called commit.
+1. Working directory: The local directory/folders you see when you open any project. 
+2. Staging are: Files which you want to push in the next commit.
+3. Git directory (repository): This is the place where all the files (in compressed format) are present in .git folder.		
+
+######################################################################################################################
+How to make a folder a git repository?
+git init
+The above command will make your folder a git repository by creating a .git folder in it.
+
+git add --a (will take all the files to staging area)
+This will make the files colour green with a message: Changes to be committed
+
+git commit (opens an editor)
+git commit -m "Initial Commit" (This will create a snapshot of all the files in the staging area)
+git log (lists all the commits, from latest commit to initial commit)
+git add first.txt (will add only this txt file in the staging area)
+######################################################################################################################
+
+How to stop tracking a repository?
+rm -rf .git (use very very carefully)
+
+How to clone a git repository from github?
+git clone "<<url>>" (This will create the same name folder)
+If you want to change the name of the folder while cloning use below command:
+git clone "<<url>>" newname
+######################################################################################################################
+
+Initially all files are "untracked".
+Then, after git add command it comes to staging area as "unmodified" files.
+Now, if you change the content of any file, it becomes "modified"
+These modified files need to be added again to move to staging area.
+Then these files become "staged"
+######################################################################################################################
+
+How to ignore files in git?
+Create a file as below:
+touch .gitignore (creates a new file)
+
+Open the file created file and mention the files you want to ignore
+error.log (These files will be ignored)
+
+If you want to ignore multiple files with same extension, just mention *.log in your .gitignore file.
+To ignore a folder mention dir/ in your .gitignore file. But this will ignore all types of dir folder.
+If you want to ignore a specific type of dir folder, mention as /dir/ in your .gitignore file.
+
+NOTE: Git does not track empty folders.
+######################################################################################################################
+git diff: it compares working directory with staging area. (GREEN is STAGING area and are tracked)
+
+git diff --stage (compares last commit with current staging area)
+######################################################################################################################
+
+How to skip the staging area?
+git commit -a -m "Direct Commit" (sends all tracked files in the commit, but will not touch untracked files)
+######################################################################################################################
+
+Moving and renaming files in git?
+Removing a file: git rm third.txt (this will also automatically stage the deleted file)
+Renaming a file: git mv first.txt first_renamed.txt (first.txt will be renamed to first_renamed.txt. This will be moved to staging area)
+
+If you are tracking a file earlier and now you added it to .gitignore, then also it gets tracked.
+To rectify this behaviour, you have to tell git explicitly to untrack the file. Use below command:
+git rm --cached <<filename>>
+Exmaple: git rm --cached access.db
+######################################################################################################################
+
+Viewing and Changing commits in git?
+When you use the below command: 
+git clone "<<url>>" newname --> This is a git repository. Not the outer folder.
+
+git log -p (file changes in that particular commit)
+git log -p -2 (last 2 commits will be shown)
+git log --stat
+git log --pretty=oneline
+git log --pretty=short
+
+Author: who created the file
+Commit: who changed the file
+
+How to filter logs as per time?
+git log --since=2.days (days can be changed to months, years, weeks etc)
+
+git log --pretty=format:"%h --%an"
+
+Gow to amend a commit?
+git commit --amend (opens an editor)
+Change the things you want to and stage again and commit.
+######################################################################################################################
+
+How to unstage a file?
+git restore --staged <file>
+Run git status to check the staging/unstaging status
+
+How to bring back to original status?
+git checkout -- first_renamed.txt
+
+To go to previous commit: git checkout -f
+######################################################################################################################
+
+
